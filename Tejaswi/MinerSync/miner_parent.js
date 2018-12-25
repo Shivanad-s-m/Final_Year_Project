@@ -210,9 +210,11 @@ const sw = Swarm(config)
             //Message from miner
             log('Received block from miner ' + peerId)
 
-            Child.kill('SIGINT')
-            console.log("Mining stopped due to receiving block from other miner")
-                    
+            if (typeof Child != "undefined") {   
+                Child.kill('SIGINT')
+                console.log("Mining stopped due to receiving block from other miner")
+            }                 
+		
             //Extract the block from message
             let new_block = JSON.parse(data.slice(1))
             if (typeof BlockChain1 != "undefined") {      
