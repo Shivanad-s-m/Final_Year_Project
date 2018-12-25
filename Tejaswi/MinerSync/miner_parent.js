@@ -129,15 +129,7 @@ const sw = Swarm(config)
 
     const peerId = info.id.toString('hex')
     log(`Connected #${seq} to peer: ${peerId}`)
-
-    if (info.initiator) {
-      try {
-        conn.setKeepAlive(true, 600)
-      } catch (exception) {
-        log('exception', exception)
-      }
-    }
-
+	  
     conn.on('data', data => {
         //Received a message from other peer
         console.log('Received Message from peer ' + peerId,'----> ' + data.toString())
