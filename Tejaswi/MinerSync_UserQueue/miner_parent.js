@@ -6,35 +6,9 @@ const getPort = require('get-port')
 const readline = require('readline')
 const {fork}=require('child_process')
 
-class Block {
-    constructor(data, previousHash){
-		this.data = data
-		this.previousHash = previousHash
-		this.timeStamp = new Date().getTime()
-		this.nonce = 0
-		this.hash = this.calculateHash()
-    }
 
-    calculateHash(){
-        return crypto_NEW.SHA256(
-        this.previousHash + 
-        this.timeStamp.toString() + 
-        this.nonce.toString()
-        ).toString()
-    }
-
-    mineBlock(difficulty){
-        let target = Array(difficulty+1).join('0')
-        while(this.hash.substring(0, difficulty).localeCompare(target)!=0)
-        {
-            //System.out.println("Current hash: "+hash.toString());
-            this.nonce++;
-            this.hash = this.calculateHash()
-            //CHECK FOR INCOMING MESSAGE??
-        }
-		//console.log("Block mined: " + this.hash)
-    }
-}
+//Declare blockchain
+var BlockChain1
 
 class BlockChain {
 
@@ -80,6 +54,21 @@ function fromAscii(data){
     return data_new
 }
 
+function MergeBlockChain(BlockChainx){
+    console.log("Called Merge Block chain function")
+    for(let i=0; i<BlockChainx.num_blocks; i++)
+    {
+        if (typeof BlockChain1 != "undefined") { 
+            BlockChain1.addBlock(BlockChainx.blockchain[i]);
+        }
+        else{
+            BlockChain1 = new BlockChain(BlockChainx.blockchain[i], glob_difficulty);
+        }
+    }
+    console.log("OVERALL BLOCKCHAIN IS\n"+JSON.stringify(BlockChain1.blockchain))
+    //return BlockChain1
+}
+
 function MineNow(msg_queue, BlockChainx){
     Child = fork('miner_child.js');
     console.log("Forked child for mining")
@@ -117,7 +106,7 @@ function MineNow(msg_queue, BlockChainx){
             }
             else{
                 console.log("Finished processing queue, returning Blockchain =>"+JSON.stringify(BlockChainx.blockchain))
-                return BlockChainx
+                MergeBlockChain(BlockChainx)
             }
         })
     }
@@ -156,16 +145,15 @@ function MineNow(msg_queue, BlockChainx){
             }
             else{
                 console.log("Finished processing queue, returning Blockchain =>"+JSON.stringify(BlockChainx.blockchain))
-                return BlockChainx
+                MergeBlockChain(BlockChainx)
             }
         })
 
     }
+    return BlockChainx
 }
 
-
-//Declare blockchain
-var BlockChain1
+var BlockChain_temp
 
 //Declare child
 var Child
@@ -229,6 +217,11 @@ const sw = Swarm(config)
         //Received a message from other peer
         console.log('Received Message from peer ' + peerId,'----> ' + data.toString())
 
+        //Check current overall blockchain
+        if (typeof BlockChain1 != "undefined") { 
+            console.log("OVERALL BLOCKCHAIN IS\n"+JSON.stringify(BlockChain1.blockchain))
+        }
+
         //Convert from string of ASCII values to string of characters
         data = fromAscii(data)
 
@@ -245,7 +238,7 @@ const sw = Swarm(config)
                 Child = fork('miner_child.js');
                 console.log("Forked child for mining")
                 
-                BlockChain1 = MineNow(msg_queue, BlockChain1)
+                MineNow(msg_queue, BlockChain_temp)
 
             }
             else if(msg_queue.length>0){
@@ -267,19 +260,21 @@ const sw = Swarm(config)
             }                    
             //Extract the block from message
             let new_block = JSON.parse(data.slice(1))
-            if (typeof BlockChain1 != "undefined") {      
+            if (typeof BlockChain_temp != "undefined") {      
                 //Blockchain already exists, use existing
                 console.log("Blockchain already exists")
-                BlockChain1.addBlock(new_block)
-                console.log("Appended to blockchain"+JSON.stringify(BlockChain1.blockchain))
+                BlockChain_temp.addBlock(new_block)
+                console.log("Appended to blockchain"+JSON.stringify(BlockChain_temp.blockchain))
+                
             }
             else{
                 //Blockchain doesn't already exist, create now
                 console.log("Blockchain doesn't exist")
-                BlockChain1 = new BlockChain(new_block, glob_difficulty)
-                console.log("Created blockchain"+JSON.stringify(BlockChain1.blockchain))
+                BlockChain_temp = new BlockChain(new_block, glob_difficulty)
+                console.log("Created blockchain"+JSON.stringify(BlockChain_temp.blockchain))
             }
         }
+
     })
 
     //if (typeof Child != "undefined") {
