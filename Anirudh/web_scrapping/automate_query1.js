@@ -1,7 +1,10 @@
 var request = require('request');
 var cheerio = require('cheerio');
 
+
+var opn = require('opn');
 var fs = require('fs');
+
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0 //need to improve this method as request is insecure
 
 url = 'https://landrecords.karnataka.gov.in/rtconline/About.aspx?'
@@ -35,3 +38,5 @@ request(url, function(error, response, body) {
   //console.log(siteHeading.text())
 
 });
+
+opn(url)
