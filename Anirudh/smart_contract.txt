@@ -1,0 +1,14 @@
+smart contracts Once deployed it can be accesed globally. 
+These contracts are enforced and certified by parties that we call miners.
+We pay these miners with something called Gas, which is the cost to run a contract.
+
+Different Operations in the smart contract code
+1.Intialising Contract
+2.Create a new Property.
+CreateProperty- property Id, propoerty value, property owner address
+3.Approve the new Property.(verify authenticity)
+4.Request Change of Ownership.
+5.Approve change in Onwership.
+6.Change the price of the property.
+7.Get the property details.
+8.addUser ?(does it come under smart contracts)
