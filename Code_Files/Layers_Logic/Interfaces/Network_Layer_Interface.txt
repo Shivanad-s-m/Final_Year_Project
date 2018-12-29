@@ -3,7 +3,8 @@ Network Layer
 
 Event-handler functions
 -----------------------
--Question(string message)
+-Ask_user()
+    -Question(string message)
 -On_connection(object connection, string info)
     -On_data(string data)
     -On_close()
