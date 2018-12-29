@@ -1,14 +1,15 @@
-## Network Layer
+Network Layer
+-------------
 
-### Event-handler functions
+Event-handler functions
 -----------------------
-..* Question(string message)
-..* On_connection(object connection, string info)
-    ..* On_data(string data)
-    ..* On_close()
+-Question(string message)
+-On_connection(object connection, string info)
+    -On_data(string data)
+    -On_close()
 
-### Standard functions
+Standard functions
 ------------------
-..* Broadcast_message(dict peers, string message)
-..* Add_peer(dict peers, string peerId)
-..* Delete_peer(dict peers, string peerId)
+-Broadcast_message(dict peers, string message)
+-Add_peer(dict peers, string peerId)
+-Delete_peer(dict peers, string peerId)
