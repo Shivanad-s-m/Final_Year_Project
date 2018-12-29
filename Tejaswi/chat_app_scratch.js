@@ -1,22 +1,14 @@
 var swarm = require('discovery-swarm')
 const crypto = require('crypto')
-const getPort = require('get-port'); //to generate random ports for each system
+const defaults = require('dat-swarm-defaults')
+const getPort = require('get-port') //to generate random ports for each system
 var readline = require('readline')
 
 rl = readline.createInterface(process.stdin, process.stdout);
 let counter =0;
 const peers ={}
-var sw = swarm({
-id: crypto.randomBytes(32), // peer-id for user
-    //extracted as sw.id
-        
-    // stream: stream, // stream to replicate across peers
-    // connect: fn, // connect local and remote streams yourself
-    // utp: true, // use utp for discovery
-    //tcp: true, // use tcp for discovery
-    // maxConnections: 0, // max number of connections.
-    //  whitelist: [] // array of ip addresses to restrict connections to
-});
+const config = defaults({id:crypto.randomBytes(32)})
+var sw = swarm(config);
 
 //sw.listen(65002)  cant use same port from same system
 ;(async () => {
@@ -39,15 +31,7 @@ id: crypto.randomBytes(32), // peer-id for user
         id: Buffer('...') // the remote peer's peer-id.
         }
         */
-        // Keep alive TCP connection with peer
-        if (info.initiator) {
-        try {
-            conn.setKeepAlive(true, 600)
-        } catch (exception) {
-            log('exception', exception)
-        }
-        }
-
+        
         
         var peerid=info.id.toString('hex')
         peers[counter]=conn  //dictionary with counter as key and connection soket as value
