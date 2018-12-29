@@ -38,8 +38,17 @@ id: crypto.randomBytes(32), // peer-id for user
         port: 8080, // the remote port of the peer.
         id: Buffer('...') // the remote peer's peer-id.
         }
-
         */
+        // Keep alive TCP connection with peer
+        if (info.initiator) {
+        try {
+            conn.setKeepAlive(true, 600)
+        } catch (exception) {
+            log('exception', exception)
+        }
+        }
+
+        
         var peerid=info.id.toString('hex')
         peers[counter]=conn  //dictionary with counter as key and connection soket as value
         
@@ -47,9 +56,9 @@ id: crypto.randomBytes(32), // peer-id for user
 
 
 
-        conn.on('data', function(data)  {
-        // Here we handle incomming messages
-        console.log('Received Message from peer ' + '----> ' + data.toString())
+        conn.on('data', data =>  {
+            // Here we handle incomming messages
+            console.log('Received Message from peer ' + '----> ' + data.toString())
         })
 
     })
