@@ -1,0 +1,45 @@
+/*
+Application Layer
+-----------------
+User Registration
+Property Registration(external)
+Property Query
+Property Transfer
+Money Transfer(exernal)
+*/
+
+/*
+Smart Contracts Layer
+---------------------
+Members:
+    Buyers
+    Sellers
+    Properties
+Rules:
+    Money Transfer
+    Property Transfer
+    Transaction fee
+*/
+
+/*
+Consensus Layer
+---------------
+Proof-of-Work
+*/
+
+/*
+Data Layer
+----------
+Data blocks
+Hash function
+Signature
+Tables - Property owners, Account balances
+Merkel Tree
+Encryption
+*/
+
+/*
+Network Layer
+-------------
+P2P Broadcast
+*/
