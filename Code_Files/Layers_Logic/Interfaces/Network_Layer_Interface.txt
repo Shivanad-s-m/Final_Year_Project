@@ -12,5 +12,5 @@ Event-handler functions
 Standard functions
 ------------------
 -Broadcast_message(dict peers, string message)
--Add_peer(dict peers, string peerId)
--Delete_peer(dict peers, string peerId)
+-Add_peer(dict peers, string peerId, object connection, object seq)
+-Delete_peer(dict peers, string peerId, object seq)
