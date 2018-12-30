@@ -6,6 +6,14 @@ var readline = require('readline-sync');
 
 var  property_lock = {}
 
+function send_money(pub_key,price)  //as users wallet stored in separate database ,its a db operation 
+{
+
+//send money to owner by some protocol
+
+
+}
+
 class user
 {
    
@@ -40,9 +48,9 @@ class user
     {
         //query_miner
         //query by id or hissa_no or survey no or any relavant combination
-        prop_id,survey_no,hissa_no,dist,taluk,pubkey,price = query_miner(prop_id);
+        prop_id,owners_pubkey,survey_no,hissa_no,dist,taluk,pubkey,price = query_miner(prop_id);
         //hash_map for lock 
-        if(property_lock[prop_id==1])
+        if(property_lock[prop_id]==1)
         {
             console.log("some other transaction is occuring with respect to this property right now")
             console.log("come back later")
@@ -53,8 +61,29 @@ class user
             property_lock[prop_id] = "1" //  if 1 
 
             //start transaction
+            //subtract price of property from user while buying
+            if(this.balance>price)
+            {
+                this.balance= this.balance - price
+                send_money(owners_pubkey,price)
+
+                //If new price to be set
+                var new_price =99999;
+                for (let id in peers) {
+                    peers[id].conn.write('u'+this.pub_key,prop_id,survey_no,hissa_no,dist,taluk,new_price)
+                    //append to blockchain with buyer's pubkey and new price
+                }
+
+                delete property_lock[prop_id]
+                //transaction complete
 
 
+            }
+            else
+            {
+                delete property_lock[prop_id]
+                //EXIT TRANSACTION
+            }
 
         }
     }
