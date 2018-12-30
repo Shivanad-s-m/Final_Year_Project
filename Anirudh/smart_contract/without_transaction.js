@@ -14,10 +14,9 @@ function send_money(pub_key,price)  //as users wallet stored in separate databas
 
 }
 
-class user
-{
-   
-
+class user //users info is stored in separate db ,it can be simulated using class ,only transactions are stored in blockchain
+{  
+  
     constructor()
     {
         this.uid=undefined;//permanent user id
