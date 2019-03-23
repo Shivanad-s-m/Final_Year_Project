@@ -5,6 +5,7 @@ Please upload the following files:
 // User facing, takes command line inputs
 class Client:
   - Client Init (constructor/static)
+  - Self Query
   - Add Money
   - Property Registration
   - Property Query
