@@ -1,0 +1,23 @@
+Please upload the following files:
+------------------------------------------------------
+1) client.js    
+
+// User facing, takes command line inputs
+class Client:
+  - Client Init (constructor/static)
+  - Add Money
+  - Property Registration
+  - Property Query
+  - Property Transfer
+  - Money Transfer
+  
+Commandline input parser, call Client functions
+------------------------------------------------------ 
+2) server.js
+ 
+// Receive input from client
+class Server:
+  - Server Init
+  - Property Verification
+  - Signature Verification
+  - Handle transaction
